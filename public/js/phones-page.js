@@ -161,13 +161,43 @@ class PhonesPage {
   constructor({ element }) {
     this._element = element;
 
+    new Search({
+      element: this._element.querySelector('[data-component="search"]'),
+    });
+
     new PhonesCatalogue({
       element: this._element.querySelector('[data-component="phones-catalogue"]'),
       phones: this._getPhones()
     });
+
+    this._element.addEventListener('input', this._onInputSearch.bind(this));
   }
 
-  _getPhones() {
-    return phonesFromServer;
+  _getPhones(searchName = '') {
+    let filterPhones = [];
+    
+    phonesFromServer.forEach((phone) => {
+      if (this._filterPhones(phone, searchName)) {
+        filterPhones.push(this._filterPhones(phone, searchName));
+      }
+    });
+    return filterPhones;
+  }
+
+  _onInputSearch(event) {
+    let target = event.target;
+      
+    if (target.getAttribute('data-field') === "search-field") {
+      new PhonesCatalogue({
+        element: this._element.querySelector('[data-component="phones-catalogue"]'),
+        phones: this._getPhones(this._element.querySelector('input').value)
+      });
+    }
+  }
+
+  _filterPhones(phone, string) {
+    if (phone.name.toLowerCase().indexOf(string.toLowerCase()) !== -1) {
+      return phone;
+    }
   }
 }
