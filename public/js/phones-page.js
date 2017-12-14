@@ -213,9 +213,7 @@ class PhonesPage {
         break;
       default:
         return filterPhones.sort(this._sortByName);
-    } 
-
-    
+    }     
   }
 
   _filterPhones(phone, searchQuery) {
