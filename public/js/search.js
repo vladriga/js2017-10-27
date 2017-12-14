@@ -11,7 +11,7 @@ class Search {
         this._element.innerHTML = `
         <p>
             Search:
-            <input data-field="search-field">
+            <input data-search="search">
         </p>
         `
     }
