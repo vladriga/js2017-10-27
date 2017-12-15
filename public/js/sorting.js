@@ -9,13 +9,17 @@ class Sorter {
 
     this._select = this._element.querySelector('[data-element="sorting"]');
 
-    this._select.onchange = (event) => {
+    this._select.addEventListener('change', (event) => {
       let myEvent = new CustomEvent('sorter.change', {
         detail: this._select.value,
       });
 
       this._element.dispatchEvent(myEvent);
-    };
+    });
+  }
+
+  on(eventName, handler) {
+    this._element.addEventListener(eventName, handler);
   }
 
   _render() {

@@ -173,17 +173,25 @@ class PhonesPage {
       list: sortingList,
     });
 
-    this._sorter._element.addEventListener('sorter.change', (event) => {
-      let sortingOrder = event.detail;
-
-      this._catalogue.setPhones( this._getPhones({ order: sortingOrder }) );
-    });
-
     this._catalogue = new PhonesCatalogue({
       element: this._element.querySelector('[data-component="phones-catalogue"]'),
     });
 
     this._catalogue.setPhones( this._getPhones() );
+
+    this._search.on('search.change', (event) => {
+      let phones = this._getPhones({
+        query: event.detail,
+      });
+
+      this._catalogue.setPhones( phones );
+    });
+
+    this._sorter.on('sorter.change', (event) => {
+      let sortingOrder = event.detail;
+
+      this._catalogue.setPhones( this._getPhones({ order: sortingOrder }) );
+    });
   }
 
   _getPhones({ query = '', order = 'name' } = {}) {
