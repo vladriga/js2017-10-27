@@ -164,60 +164,43 @@ class PhonesPage {
   constructor({ element }) {
     this._element = element;
 
-    new Search({
+    this._search = new Search({
       element: this._element.querySelector('[data-component="search"]'),
     });
 
-    new Sorting({
+    this._sorter = new Sorter({
       element: this._element.querySelector('[data-component="sorter"]'),
-      list: sortingList
+      list: sortingList,
     });
 
-    this._createPhonesCatalogue();
+    this._sorter._element.addEventListener('sorter.change', (event) => {
+      let sortingOrder = event.detail;
 
-    this._element.addEventListener('input', this._onSearchSorting.bind(this));
-    this._element.addEventListener('onchange', this._onSearchSorting.bind(this));
-  }
+      this._catalogue.setPhones( this._getPhones({ order: sortingOrder }) );
+    });
 
-  _onSearchSorting(event) {
-    let target = event.target;
-    let targetSearch = target.getAttribute('data-search');
-    let targetSorting = target.getAttribute('data-sorting');
-
-    if (targetSearch || targetSorting) {
-      this._createPhonesCatalogue(
-        this._element.querySelector('input').value,
-        this._element.querySelector('select').value,
-      );
-    }
-  }
-
-  _createPhonesCatalogue(searchQuery = '', sortOption = 'name') {
-    new PhonesCatalogue({
+    this._catalogue = new PhonesCatalogue({
       element: this._element.querySelector('[data-component="phones-catalogue"]'),
-      phones: this._getPhones(searchQuery, sortOption),
     });
+
+    this._catalogue.setPhones( this._getPhones() );
   }
 
-  _getPhones(searchQuery, sortOption) {
+  _getPhones({ query = '', order = 'name' } = {}) {
+    let normalizedQuery = query.toLowerCase();
+
     let filterPhones = phonesFromServer.filter((phone) => {
-      return this._filterPhones(phone, searchQuery);
+      return phone.name.toLowerCase().includes(normalizedQuery)
     });
 
-    switch(sortOption) {
-      case 'name':
-        return filterPhones.sort(this._sortByName);
-        break;
+    switch(order) {
       case 'age':
         return filterPhones.sort(this._sortByAge);
-        break;
+
+      case 'name':
       default:
         return filterPhones.sort(this._sortByName);
-    }     
-  }
-
-  _filterPhones(phone, searchQuery) {
-    return phone.name.toLowerCase().includes(searchQuery.toLowerCase())
+    }
   }
 
   _sortByName(a, b) {

@@ -3,12 +3,28 @@
 class PhonesCatalogue {
   constructor({ element, phones }) {
     this._element = element;
-    this._phones = phones;
 
     this._render();
+
+    this._phonesList = this._element.querySelector('[data-element="phones-list"]');
+  }
+
+  setPhones(phones) {
+    this._phones = phones;
+
+    this._renderList();
   }
 
   _render() {
+    this._element.innerHTML = `
+      <ul class="phones"
+          data-element="phones-list">
+          
+      </ul>
+    `;
+  }
+
+  _renderList() {
     let listHTML = '';
 
     this._phones.forEach((phone) => {
@@ -23,10 +39,6 @@ class PhonesCatalogue {
       `;
     });
 
-    this._element.innerHTML = `
-      <ul class="phones">
-        ${ listHTML }
-      </ul>
-    `;
+    this._phonesList.innerHTML = listHTML;
   }
 }
