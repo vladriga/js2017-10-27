@@ -155,19 +155,76 @@ const phonesFromServer = [
     "snippet": "Motorola CHARM fits easily in your pocket or palm.  Includes MOTOBLUR service."
   }
 ];
-
+const sortingList = {
+  "name": "Alphabetical",
+  "age": "Newest"
+}
 
 class PhonesPage {
   constructor({ element }) {
     this._element = element;
 
+    new Search({
+      element: this._element.querySelector('[data-component="search"]'),
+    });
+
+    new Sorting({
+      element: this._element.querySelector('[data-component="sorter"]'),
+      list: sortingList
+    });
+
+    this._createPhonesCatalogue();
+
+    this._element.addEventListener('input', this._onSearchSorting.bind(this));
+    this._element.addEventListener('onchange', this._onSearchSorting.bind(this));
+  }
+
+  _onSearchSorting(event) {
+    let target = event.target;
+    let targetSearch = target.getAttribute('data-search');
+    let targetSorting = target.getAttribute('data-sorting');
+
+    if (targetSearch || targetSorting) {
+      this._createPhonesCatalogue(
+        this._element.querySelector('input').value,
+        this._element.querySelector('select').value,
+      );
+    }
+  }
+
+  _createPhonesCatalogue(searchQuery = '', sortOption = 'name') {
     new PhonesCatalogue({
       element: this._element.querySelector('[data-component="phones-catalogue"]'),
-      phones: this._getPhones()
+      phones: this._getPhones(searchQuery, sortOption),
     });
   }
 
-  _getPhones() {
-    return phonesFromServer;
+  _getPhones(searchQuery, sortOption) {
+    let filterPhones = phonesFromServer.filter((phone) => {
+      return this._filterPhones(phone, searchQuery);
+    });
+
+    switch(sortOption) {
+      case 'name':
+        return filterPhones.sort(this._sortByName);
+        break;
+      case 'age':
+        return filterPhones.sort(this._sortByAge);
+        break;
+      default:
+        return filterPhones.sort(this._sortByName);
+    }     
+  }
+
+  _filterPhones(phone, searchQuery) {
+    return phone.name.toLowerCase().includes(searchQuery.toLowerCase())
+  }
+
+  _sortByName(a, b) {
+    return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+  }
+
+  _sortByAge(a, b) {
+    return a.age - b.age;
   }
 }
