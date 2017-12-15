@@ -1,6 +1,6 @@
 'use strict';
 
-import Component from './_component';
+import Component from './_component.js';
 
 export default class Sorter extends Component {
   constructor({ element, list: optionsList }) {

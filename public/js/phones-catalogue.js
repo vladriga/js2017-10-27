@@ -1,5 +1,10 @@
 'use strict';
 
+let template = document.querySelector('#phones-catalogue-template').innerHTML;
+let compiledTemplate = _.template(template);
+
+console.log(compiledTemplate);
+
 export default class PhonesCatalogue {
   constructor({ element, phones }) {
     this._element = element;
@@ -16,29 +21,23 @@ export default class PhonesCatalogue {
   }
 
   _render() {
-    this._element.innerHTML = `
-      <ul class="phones"
-          data-element="phones-list">
-          
-      </ul>
-    `;
+    this._element.innerHTML = '';
   }
 
   _renderList() {
-    let listHTML = '';
-
-    this._phones.forEach((phone) => {
-      listHTML += `
-        <li class="thumbnail">
-          <a href="#!/phones/${ phone.id }" class="thumb">
-            <img alt="${ phone.name }" src="${ phone.imageUrl }">
-          </a>
-          <a href="#!/phones/${ phone.id }">${ phone.name }</a>
-          <p>${ phone.snippet }</p>
-        </li>
-      `;
+    this._element.innerHTML = compiledTemplate({
+      phones: this._phones,
     });
-
-    this._phonesList.innerHTML = listHTML;
   }
 }
+
+
+
+
+
+
+
+
+
+
+

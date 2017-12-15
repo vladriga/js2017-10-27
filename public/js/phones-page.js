@@ -1,8 +1,8 @@
 'use strict';
 
-import Search from './search';
-import Sorter from './sorter';
-import PhonesCatalogue from './phones-catalogue';
+import Search from './search.js';
+import Sorter from './sorter.js';
+import PhonesCatalogue from './phones-catalogue.js';
 
 const phonesFromServer = [
   {
