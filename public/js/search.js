@@ -1,24 +1,16 @@
 'use strict';
 
-class Search {
+class Search extends Component {
   constructor({ element }) {
-    this._element = element;
+    super(element);
 
     this._render();
 
     this._fieldElement = this._element.querySelector('[data-element="field"]');
 
     this._fieldElement.addEventListener('input', () => {
-      let myEvent = new CustomEvent('search.change', {
-        detail: this._fieldElement.value,
-      });
-
-      this._element.dispatchEvent(myEvent);
+      this.trigger('search.change', this._fieldElement.value);
     })
-  }
-
-  on(eventName, handler) {
-    this._element.addEventListener(eventName, handler);
   }
 
   _render() {

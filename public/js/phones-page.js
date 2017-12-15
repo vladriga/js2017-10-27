@@ -158,12 +158,10 @@ const phonesFromServer = [
 const sortingList = {
   "name": "Alphabetical",
   "age": "Newest"
-}
+};
 
 class PhonesPage {
-  constructor({ element }) {
-    this._element = element;
-
+  _initComponents() {
     this._search = new Search({
       element: this._element.querySelector('[data-component="search"]'),
     });
@@ -178,19 +176,39 @@ class PhonesPage {
     });
 
     this._catalogue.setPhones( this._getPhones() );
+  }
+
+
+  constructor({ element }) {
+    this._element = element;
+
+    this._currentQuery = '';
+    this._currentOrder = null;
+
+    this._initComponents();
+
+
 
     this._search.on('search.change', (event) => {
+      this._currentQuery = event.detail;
+
       let phones = this._getPhones({
-        query: event.detail,
+        query: this._currentQuery,
+        order: this._currentOrder,
       });
 
       this._catalogue.setPhones( phones );
     });
 
     this._sorter.on('sorter.change', (event) => {
-      let sortingOrder = event.detail;
+      this._currentOrder = event.detail;
 
-      this._catalogue.setPhones( this._getPhones({ order: sortingOrder }) );
+      let phones = this._getPhones({
+        query: this._currentQuery,
+        order: this._currentOrder,
+      });
+
+      this._catalogue.setPhones( phones );
     });
   }
 

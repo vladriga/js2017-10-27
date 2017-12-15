@@ -1,8 +1,9 @@
 'use strict';
 
-class Sorter {
+class Sorter extends Component {
   constructor({ element, list: optionsList }) {
-    this._element = element;
+    super(element);
+
     this._list = optionsList;
 
     this._render();
@@ -10,16 +11,8 @@ class Sorter {
     this._select = this._element.querySelector('[data-element="sorting"]');
 
     this._select.addEventListener('change', (event) => {
-      let myEvent = new CustomEvent('sorter.change', {
-        detail: this._select.value,
-      });
-
-      this._element.dispatchEvent(myEvent);
+      this.trigger('sorter.change', this._select.value);
     });
-  }
-
-  on(eventName, handler) {
-    this._element.addEventListener(eventName, handler);
   }
 
   _render() {
