@@ -1,6 +1,6 @@
 'use strict';
 
-import Component from './_component.js';
+import Component from './component.js';
 
 export default class Search extends Component {
   constructor({ element }) {
