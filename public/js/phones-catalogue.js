@@ -1,6 +1,6 @@
 'use strict';
 
-class PhonesCatalogue {
+export default class PhonesCatalogue {
   constructor({ element, phones }) {
     this._element = element;
 

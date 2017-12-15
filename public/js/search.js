@@ -1,6 +1,8 @@
 'use strict';
 
-class Search extends Component {
+import Component from './_component';
+
+export default class Search extends Component {
   constructor({ element }) {
     super(element);
 

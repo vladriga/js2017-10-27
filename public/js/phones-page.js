@@ -1,5 +1,9 @@
 'use strict';
 
+import Search from './search';
+import Sorter from './sorter';
+import PhonesCatalogue from './phones-catalogue';
+
 const phonesFromServer = [
   {
     "age": 0,
@@ -160,7 +164,7 @@ const sortingList = {
   "age": "Newest"
 };
 
-class PhonesPage {
+export default class PhonesPage {
   _initComponents() {
     this._search = new Search({
       element: this._element.querySelector('[data-component="search"]'),
