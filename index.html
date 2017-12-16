@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="public/app.css">
+
+    <script src="public/js/server/phones.js"></script>
+    <script src="public/js/phonesList.js"></script>
+    <script src="public/js/sorter.js"></script>
+    <script src="public/js/filter.js"></script>
+    <script src="public/js/phonesPage.js"></script>
+    <script src="public/js/app.js" defer></script>
+</head>
+<body>
+
+<div>
+  <div>
+    <div class="container-fluid" data-page="phones-page">
+      <div class="row">
+        <div class="col-md-2">
+          <!--Sidebar content-->
+
+            <div data-component="searcher">
+                <p>
+                    Search:
+                    <input>
+                </p>
+            </div>
+          
+            <div data-component="sorter">
+                <p>
+                    Sort by:
+                    <select>
+                        <option value="name">Alphabetical</option>
+                        <option value="age">Newest</option>
+                    </select>
+                </p>
+            </div>
+          
+        </div>
+        <div class="col-md-10">
+          <!--Body content-->
+            <div data-component="phones-list">
+                <ul class="phones">
+                    
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
